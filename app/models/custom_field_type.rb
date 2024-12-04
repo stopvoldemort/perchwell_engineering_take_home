@@ -5,7 +5,6 @@ class CustomFieldType < ApplicationRecord
   enum value_type: { freeform: 'freeform', number: 'number', categorical: 'categorical' }
 
   validates :name, :value_type, presence: true
-  # validates :value_type, inclusion: { in: value_type.keys }
   validates :allowed_values, presence: true, if: -> { value_type == 'categorical' }
   validates :name, uniqueness: { scope: :client_id }
 end

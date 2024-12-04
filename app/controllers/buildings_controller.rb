@@ -52,7 +52,6 @@ class BuildingsController < ApplicationController
   end
 
   def unpermitted_params
-    permitted = building_params.to_h
     params['building'].to_unsafe_h.except(*building_params.keys.map(&:to_s))
   end
 end
