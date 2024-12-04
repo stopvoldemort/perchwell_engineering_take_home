@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_04_153401) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_04_153951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,5 +28,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_04_153401) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "custom_field_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "value_type", null: false
+    t.string "allowed_values", default: [], array: true
+    t.bigint "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_custom_field_types_on_client_id"
+    t.index ["name", "client_id"], name: "index_custom_field_types_on_name_and_client_id", unique: true
+  end
+
   add_foreign_key "buildings", "clients"
+  add_foreign_key "custom_field_types", "clients"
 end
