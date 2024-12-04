@@ -1,4 +1,4 @@
-FROM ruby:3.3.5-slim-bookworm
+FROM --platform=linux/amd64 ruby:3.3.5-slim-bookworm
 
 WORKDIR /app
 
