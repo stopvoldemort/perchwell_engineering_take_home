@@ -11,3 +11,7 @@
 ["Fitswilliams", "Melody", "Jupiter", "Cross-legged Maverick", "Monarch"].each do |name|
   Client.find_or_create_by!(name: name)
 end
+
+["123 Ocean Parkway", "456 Caton Avenue", "789 Church Avenue", "1011 East 8th Street", "1213 Westminster Road"].each do |address|
+  Building.find_by(address: address) || Building.create!(address: address, client: Client.all.sample)
+end
