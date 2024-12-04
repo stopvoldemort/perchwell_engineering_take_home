@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
+  resources :clients, only: [] do
+    resources :buildings, only: %i[index new show create update edit]
+  end
+
   # Defines the root path route ("/")
   root "welcome#index"
 end
