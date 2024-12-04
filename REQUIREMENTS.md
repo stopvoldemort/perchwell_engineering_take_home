@@ -42,15 +42,17 @@ RAILS_ENV=test bundle exec rspec
 # The Ask
 
 Create a Rails app with the following components:
-* SQL database
-* Backend logic
-* External APIs
+
+- SQL database
+- Backend logic
+- External APIs
 
 # Background
 
-We are building a platform that stores a list of physical buildings. Stakeholders will interact with our application via API.  We will have two types of stakeholders:
-* Clients that submit and create / edit buildings that they own
-* External clients that read all buildings from an API
+We are building a platform that stores a list of physical buildings. Stakeholders will interact with our application via API. We will have two types of stakeholders:
+
+- Clients that submit and create / edit buildings that they own
+- External clients that read all buildings from an API
 
 Additionally, we want to allow functionality that allows clients to have custom fields to their buildings. For example, some clients may want their buildings to have an attribute that designates if a building used to be a church.
 
@@ -62,24 +64,25 @@ Your database schema should support the following main objects at a minimum:
 
 ## Clients
 
-* Clients are the main application clients. They submit buildings to the API and have the buildings associated with them.
-* Has a name associated with the client
+- Clients are the main application clients. They submit buildings to the API and have the buildings associated with them.
+- Has a name associated with the client
 
 ## Buildings
 
-* Buildings are used to represent physical buildings
-* Has basic address info: Address / State / Zip etc
-* Additional information provided by Custom Fields
-* Associated with Client
+- Buildings are used to represent physical buildings
+- Has basic address info: Address / State / Zip etc
+- Additional information provided by Custom Fields
+- Associated with Client
 
 ## Custom Field configuration
-* Custom Fields are associated with a single client
-* Custom Fields can be one of 3 types: number, freeform, or enum
-  * Number fields can be any decimal number (e.g., Number of bathrooms: 2.5)
-  * Freeform fields are strings (e.g., Living room color: “Blue”)
-  * Enum is a choice of strings (e.g., Type of walkway: “Brick, Concrete, or None”)
 
-Seed the clients table with 5 clients. You can name the clients anything you wish. 
+- Custom Fields are associated with a single client
+- Custom Fields can be one of 3 types: number, freeform, or enum
+  - Number fields can be any decimal number (e.g., Number of bathrooms: 2.5)
+  - Freeform fields are strings (e.g., Living room color: “Blue”)
+  - Enum is a choice of strings (e.g., Type of walkway: “Brick, Concrete, or None”)
+
+Seed the clients table with 5 clients. You can name the clients anything you wish.
 
 Seed a small sample of custom fields for each client.
 
@@ -96,21 +99,24 @@ Create the following API Endpoints to facilitate the following actions:
 From a client:
 
 ## Create Building
-* Create a single Building associated with a client
-* Should include as many fields as needed
-* Return an error and do not save if any values were sent that were incorrect.
-* Example: Send a string as a number field or a key that doesn't work with the custom fields
-* Return a success message if it is saved correctly
 
-## Edit Building
-* Same constraints as creating but editing an existing building by targeting its primary id
+- Create a single Building associated with a client
+- Should include as many fields as needed
+- Return an error and do not save if any values were sent that were incorrect.
+- Example: Send a string as a number field or a key that doesn't work with the custom fields
+- Return a success message if it is saved correctly
+
+## Edit Building [DAVID SQUIRES NOTE: DID NOT COMPLETE]
+
+- Same constraints as creating but editing an existing building by targeting its primary id
 
 ## Read Buildings
-* Returns all the buildings
-* Must support basic pagination functionality
-* Returns the address information associated with each building
-* Returns the client's name
-* Returns the custom fields associated with each building, even if they are empty
+
+- Returns all the buildings
+- Must support basic pagination functionality
+- Returns the address information associated with each building
+- Returns the client's name
+- Returns the custom fields associated with each building, even if they are empty
 
 Simplified read building output:
 
@@ -136,10 +142,11 @@ Simplified read building output:
 }
 ```
 
-# React Frontend
+# React Frontend [DAVID SQUIRES NOTE: DID NOT COMPLETE]
+
 The frontend portion of this project is located here: `/app/javascript/components`
 
-* Write an API call to fetch all building data and display each building in a card component written in React.
-* Create an interface using React components to create a new building and edit an existing building, complete with the necessary API calls.
-* Proper functionality should be the main focus here. Any styling choices are bonus points but it should be readable so add margin and padding for spacing as needed.
-* This should demonstrate a competent use of React hooks to manage state.
+- Write an API call to fetch all building data and display each building in a card component written in React.
+- Create an interface using React components to create a new building and edit an existing building, complete with the necessary API calls.
+- Proper functionality should be the main focus here. Any styling choices are bonus points but it should be readable so add margin and padding for spacing as needed.
+- This should demonstrate a competent use of React hooks to manage state.

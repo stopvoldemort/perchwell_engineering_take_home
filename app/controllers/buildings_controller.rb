@@ -1,4 +1,7 @@
 class BuildingsController < ApplicationController
+  # TODO: REMOVE THIS LINE BEFORE DEPLOYING SOMEWHERE FOR REAL
+  skip_before_action :verify_authenticity_token
+
   before_action :set_client
 
   def show
