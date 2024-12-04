@@ -6,13 +6,11 @@ class BuildingsController < ApplicationController
 
   def show
     @building = @client.buildings.find(params[:id])
-    render json: @building
+    # render json: @building
   end
 
   def index
     @buildings = @client.buildings
-
-    render json: @buildings
   end
 
   def new; end
@@ -29,7 +27,6 @@ class BuildingsController < ApplicationController
 
   def edit
     @building = @client.buildings.find(params[:id])
-    render json: @building
   end
 
   def update
