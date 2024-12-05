@@ -1,23 +1,14 @@
 class BuildingsController < ApplicationController
-  # TODO: REMOVE THIS LINE BEFORE DEPLOYING SOMEWHERE FOR REAL
-  skip_before_action :verify_authenticity_token
-
-  before_action :set_client
-
-  def show
-    @building = @client.buildings.find(params[:id])
-  end
-
   def index
-    @buildings = @client.buildings
+    @buildings = Building.all
   end
 
   def new; end
 
   def create
-    @building = @client.buildings.build(building_params)
+    @building = Building.new(building_params)
     unpermitted_params.each do |key, value|
-      custom_field_type = @client.custom_field_types.find_by(name: key)
+      custom_field_type = CustomFieldType.find_by(name: key, client_id: @building.client_id)
       next if custom_field_type.nil?
       @building.custom_fields.build(custom_field_type: custom_field_type, field_value: value)
     end
@@ -30,12 +21,12 @@ class BuildingsController < ApplicationController
   end
 
   def edit
-    @building = @client.buildings.find(params[:id])
+    @building = Building.find(params[:id])
   end
 
   # TODO: UPDATE TO BE ABLE TO HANDLE CUSTOM FIELDS
   def update
-    @building = @client.buildings.find(params[:id])
+    @building = Building.find(params[:id])
 
     if @building.update(building_params)
       render json: @building, status: :ok
@@ -51,7 +42,7 @@ class BuildingsController < ApplicationController
   end
 
   def building_params
-    params.require('building').permit('address')
+    params.require('building').permit(%w[address client_id])
   end
 
   def unpermitted_params
