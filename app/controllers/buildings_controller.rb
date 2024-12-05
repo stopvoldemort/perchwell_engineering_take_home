@@ -4,18 +4,13 @@ class BuildingsController < ApplicationController
   before_action :set_client, only: %i[new create]
 
   def index
-    @buildings = Building.all
+    @buildings = Building.order(created_at: :desc).includes(:client, custom_fields: :custom_field_type)
   end
 
   def new; end
 
   def create
     @building = @client.buildings.build(building_params)
-    unpermitted_params.each do |key, value|
-      custom_field_type = CustomFieldType.find_by(name: key, client_id: @building.client_id)
-      next if custom_field_type.nil?
-      @building.custom_fields.build(custom_field_type: custom_field_type, field_value: value)
-    end
 
     if @building.save
       render :index, status: :created
@@ -47,10 +42,15 @@ class BuildingsController < ApplicationController
   end
 
   def building_params
-    params.require('building').permit(%w[address client_id])
-  end
-
-  def unpermitted_params
-    params['building'].to_unsafe_h.except(*building_params.keys.map(&:to_s))
+    params
+      .require('building')
+      .permit([
+        "address",
+        "client_id",
+        "custom_fields_attributes": [
+          "custom_field_type_id",
+          "field_value"
+        ]
+      ])
   end
 end
