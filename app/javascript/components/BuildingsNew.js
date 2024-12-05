@@ -1,46 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const BuildingsNew = () => {
-  const [building, setBuilding] = useState({
-    client_name: "",
-    address: "",
-    // Add more fields as necessary
-  });
+  const pathParts = window.location.pathname.split("/");
+  const clientId = pathParts[2]; // Extract client ID from the path
+  const [formData, setFormData] = useState([]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setBuilding({ ...building, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    console.log("useEffect triggered");
     axios
-      .post("/buildings", building, { headers: { Accept: "application/json" } })
-      .then(() => {
-        window.location.href = "/buildings";
+      .get(`/clients/${clientId}/buildings/new`, {
+        headers: { Accept: "application/json" },
+      })
+      .then((response) => {
+        console.log("New building data:", response.data);
+        setFormData(response.data);
       })
       .catch((error) => {
-        console.error("There was an error creating the building!", error);
+        console.error("There was an error fetching the buildings!", error);
       });
-  };
+  }, [clientId]);
 
   return (
     <div>
       <h1>New Building</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Address:
-          <input
-            type="text"
-            name="address"
-            value={building.address}
-            onChange={handleInputChange}
-          />
-        </label>
-        {/* Add more fields as necessary */}
-        <button type="submit">Create</button>
-      </form>
+      <Formik
+        initialValues={{ address: "" }}
+        onSubmit={(values, { setSubmitting }) => {
+          axios
+            .post(`/clients/${clientId}/buildings`, values, {
+              headers: { Accept: "application/json" },
+            })
+            .then(() => {
+              window.location.href = "/buildings";
+            })
+            .catch((error) => {
+              console.error("There was an error creating the building!", error);
+            })
+            .finally(() => {
+              setSubmitting(false);
+            });
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <label htmlFor="address">Address:</label>
+            <Field type="text" name="address" />
+            <ErrorMessage name="address" component="div" />
+            <button type="submit" disabled={isSubmitting}>
+              Create
+            </button>
+          </Form>
+        )}
+      </Formik>
       <a href="/buildings">Back</a>
     </div>
   );
