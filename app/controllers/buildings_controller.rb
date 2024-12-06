@@ -1,10 +1,11 @@
 class BuildingsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[create]
+  # Probably want to remove this line before deploying to production
+  skip_before_action :verify_authenticity_token, only: %i[create update]
 
   before_action :set_client, only: %i[new create]
 
   def index
-    @buildings = Building.order(created_at: :desc).includes(:client, custom_fields: :custom_field_type)
+    @buildings = Building.order(updated_at: :desc).includes(:client, custom_fields: :custom_field_type)
   end
 
   def new; end
@@ -19,20 +20,18 @@ class BuildingsController < ApplicationController
     end
   end
 
-  # TODO
   def edit
-    # @building = Building.find(params[:id])
+    @building = Building.find(params[:id])
   end
 
-  # TODO
   def update
-    # @building = Building.find(params[:id])
+    @building = Building.find(params[:id])
 
-    # if @building.update(building_params)
-    #   render json: @building, status: :ok
-    # else
-    #   render json: @building.errors, status: :unprocessable_entity
-    # end
+    if @building.update(building_params)
+      render json: @building, status: :ok
+    else
+      render json: @building.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -48,6 +47,7 @@ class BuildingsController < ApplicationController
         "address",
         "client_id",
         "custom_fields_attributes": [
+          "id",
           "custom_field_type_id",
           "field_value"
         ]

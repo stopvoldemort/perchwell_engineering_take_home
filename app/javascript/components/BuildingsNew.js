@@ -1,48 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Formik, Form, Field, FieldArray } from "formik";
-
-const CategoricalCustomField = ({ customFieldType, fieldValueName }) => (
-  <Field as="select" name={fieldValueName}>
-    <option value="">Select an option</option>
-    {customFieldType.allowed_values.map((option) => (
-      <option key={option} value={option}>
-        {option}
-      </option>
-    ))}
-  </Field>
-);
-
-const CustomFieldValue = ({ customFieldType, index }) => {
-  const fieldValueName = `custom_fields_attributes.${index}.field_value`;
-
-  return (
-    <div
-      key={`building-${customFieldType.id}-wrapper`}
-      style={{ border: "1px solid lightblack" }}
-    >
-      <label htmlFor={fieldValueName}>{customFieldType.name}</label>
-      <Field
-        type="hidden"
-        name={`custom_fields_attributes.${index}.custom_field_type_id`}
-        value={customFieldType.id}
-      />
-      {customFieldType.value_type === "categorical" ? (
-        <CategoricalCustomField
-          customFieldType={customFieldType}
-          fieldValueName={fieldValueName}
-        />
-      ) : (
-        <Field
-          type={`${
-            customFieldType.field_type === "number" ? "number" : "text"
-          }`}
-          name={fieldValueName}
-        />
-      )}
-    </div>
-  );
-};
+import { Formik } from "formik";
+import BuildingForm from "./BuildingForm";
 
 const BuildingsNew = () => {
   const pathParts = window.location.pathname.split("/");
@@ -78,6 +37,7 @@ const BuildingsNew = () => {
       custom_fields_attributes: customFieldTypes.map((customFieldType) => ({
         custom_field_type_id: customFieldType.id,
         field_value: "",
+        id: "",
       })),
     };
   };
@@ -91,7 +51,7 @@ const BuildingsNew = () => {
           console.log("Submitting values:", values);
           axios
             .post(
-              `/clients/${clientId}/buildings`,
+              submitPath,
               { building: values },
               {
                 headers: { Accept: "application/json" },
@@ -101,37 +61,19 @@ const BuildingsNew = () => {
               window.location.href = "/buildings";
             })
             .catch((error) => {
-              console.error("There was an error creating the building!", error);
+              console.error("There was an error!", error);
             })
             .finally(() => {
               setSubmitting(false);
             });
         }}
       >
-        {({ isSubmitting }) => (
-          <Form>
-            <label htmlFor="address">Address:</label>
-            <Field type="text" name="address" />
-            <FieldArray
-              name="custom_fields_attributes"
-              render={() => (
-                <>
-                  {customFieldTypes.map((customFieldType, index) => {
-                    return (
-                      <CustomFieldValue
-                        key={customFieldType.id}
-                        customFieldType={customFieldType}
-                        index={index}
-                      />
-                    );
-                  })}
-                </>
-              )}
-            />
-            <button type="submit" disabled={isSubmitting}>
-              Create
-            </button>
-          </Form>
+        {({ isSubmitting, values }) => (
+          <BuildingForm
+            customFieldTypes={customFieldTypes}
+            isSubmitting={isSubmitting}
+            values={values}
+          />
         )}
       </Formik>
       <a href="/buildings">Back</a>
