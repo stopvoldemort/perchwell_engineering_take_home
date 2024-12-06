@@ -2,7 +2,7 @@ class CustomField < ApplicationRecord
   belongs_to :custom_field_type
   belongs_to :building
 
-  validates :custom_field_type, :field_value, presence: true
+  validates :custom_field_type, presence: true
 
   validate :field_value_matches_custom_field_type
 

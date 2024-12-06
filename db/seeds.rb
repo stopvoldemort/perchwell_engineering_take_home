@@ -14,7 +14,7 @@ end
 
 Client.first.tap do |client|
   house_color = client.custom_field_types.find_or_create_by!(name: "house color", value_type: "freeform")
-  mailbox_color = client.custom_field_types.find_or_create_by!(name: "mailbox color", value_type: "categorical", allowed_values: ["red", "green", "blue"])
+  mailbox_color = client.custom_field_types.find_or_create_by!(name: "mailbox color", value_type: "categorical", allowed_values: ["red", "green", "blue", ""])
 
   client.buildings.find_or_create_by!(address: "123 Ocean Parkway").tap do |building|
     building.custom_fields.find_or_create_by!(custom_field_type: house_color, field_value: "a mix of pink and muave")
@@ -27,8 +27,8 @@ Client.first.tap do |client|
 end
 
 Client.second.tap do |client|
-  bathroom_color = client.custom_field_types.find_or_create_by!(name: "bathroom color", value_type: "categorical", allowed_values: ["red", "green", "blue"])
-  urbanicity = client.custom_field_types.find_or_create_by!(name: "region", value_type: "categorical", allowed_values: ["urban", "suburban", "rural"])
+  bathroom_color = client.custom_field_types.find_or_create_by!(name: "bathroom color", value_type: "categorical", allowed_values: ["red", "green", "blue", ""])
+  urbanicity = client.custom_field_types.find_or_create_by!(name: "region", value_type: "categorical", allowed_values: ["urban", "suburban", "rural", ""])
   num_bathrooms = client.custom_field_types.find_or_create_by!(name: "number of bathrooms", value_type: "number")
 
   client.buildings.find_or_create_by!(address: "789 Flatbush Avenue").tap do |building|
@@ -44,7 +44,7 @@ end
 
 Client.third.tap do |client|
   ceiling_height = client.custom_field_types.find_or_create_by!(name: "ceiling height", value_type: "number")
-  good_or_bad = client.custom_field_types.find_or_create_by!(name: "good or bad", value_type: "categorical", allowed_values: ["good", "bad"])
+  good_or_bad = client.custom_field_types.find_or_create_by!(name: "good or bad", value_type: "categorical", allowed_values: ["good", "bad", ""])
 
   client.buildings.find_or_create_by!(address: "1213 Bedford Avenue").tap do |building|
     building.custom_fields.find_or_create_by!(custom_field_type: ceiling_height, field_value: "8.5")

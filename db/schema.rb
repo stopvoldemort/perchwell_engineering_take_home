@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_04_160143) do
   end
 
   create_table "custom_fields", force: :cascade do |t|
-    t.string "field_value", null: false
+    t.string "field_value"
     t.bigint "custom_field_type_id", null: false
     t.bigint "building_id", null: false
     t.datetime "created_at", null: false

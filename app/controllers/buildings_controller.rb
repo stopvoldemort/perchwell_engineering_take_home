@@ -44,12 +44,12 @@ class BuildingsController < ApplicationController
     params
       .require('building')
       .permit([
-        "address",
-        "client_id",
-        "custom_fields_attributes": [
-          "id",
-          "custom_field_type_id",
-          "field_value"
+        'address',
+        'client_id',
+        'custom_fields_attributes': [
+          'id',
+          'custom_field_type_id',
+          'field_value'
         ]
       ])
   end

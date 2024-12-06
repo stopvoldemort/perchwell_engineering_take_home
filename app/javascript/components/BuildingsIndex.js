@@ -9,7 +9,6 @@ const BuildingsIndex = () => {
     axios
       .get("/buildings", { headers: { Accept: "application/json" } })
       .then((response) => {
-        console.log("Buildings index data:", response.data);
         setBuildings(response.data.buildings);
         setClients(response.data.clients);
       })

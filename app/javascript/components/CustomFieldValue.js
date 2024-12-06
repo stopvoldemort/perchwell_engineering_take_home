@@ -35,7 +35,7 @@ export const CustomFieldValue = ({
       ) : (
         <Field
           type={`${
-            customFieldType.field_type === "number" ? "number" : "text"
+            customFieldType.value_type === "number" ? "number" : "text"
           }`}
           name={fieldValueName}
         />

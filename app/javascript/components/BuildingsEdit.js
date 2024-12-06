@@ -16,14 +16,13 @@ const BuildingsEdit = () => {
         headers: { Accept: "application/json" },
       })
       .then((response) => {
-        console.log("Edit building data:", response.data);
         setCustomFieldTypes(response.data.custom_field_types);
         setBuilding(response.data.building);
         setLoading(false);
       })
       .catch((error) => {
         console.error(
-          "There was an error fetching the new building data",
+          "There was an error fetching the data for the edit building form",
           error
         );
       });
@@ -39,7 +38,6 @@ const BuildingsEdit = () => {
       <Formik
         initialValues={building}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("Submitting values:", values);
           axios
             .put(
               `/buildings/${building.id}`,
@@ -52,7 +50,7 @@ const BuildingsEdit = () => {
               window.location.href = "/buildings";
             })
             .catch((error) => {
-              console.error("There was an error!", error);
+              console.error("There was an error updating the building!", error);
             })
             .finally(() => {
               setSubmitting(false);
